@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+<channel>
+<title>git.videolan.org Git - ffmpeg.git/rss - libavfilter history</title>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter</link>
+<description>Mirror of https://code.ffmpeg.org/FFmpeg/FFmpeg</description>
+<language>en</language>
+<managingEditor>FFmpeg</managingEditor>
+<image>
+<url>/git-logo.png</url>
+<title>git.videolan.org Git - ffmpeg.git/rss - libavfilter history</title>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter</link>
+</image>
+<pubDate>Tue, 23 Dec 2025 10:02:04 +0000</pubDate>
+<lastBuildDate>Tue, 23 Dec 2025 10:02:04 +0000</lastBuildDate>
+<generator>gitweb v.2.30.2/2.30.2</generator>
+<item>
+<title>avfilter/vf_waveform: Avoid relocations</title>
+<author>Andreas Rheinhardt &lt;andreas.rheinhardt@outlook.com&gt;</author>
+<pubDate>Mon, 22 Dec 2025 12:31:48 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=26a7fc2ac4f492a4ef0096550788c4b6293754a1</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=26a7fc2ac4f492a4ef0096550788c4b6293754a1</link>
+<description>avfilter/vf_waveform: Avoid relocations</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/vf_waveform: Avoid relocations
+
+Reviewed-by: Kacper Michajłow &lt;kasper93@gmail.com&gt;
+Signed-off-by: Andreas Rheinhardt &lt;andreas.rheinhardt@outlook.com&gt;
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/vf_waveform.c;fp=libavfilter/vf_waveform.c;h=3c1cfcdc20e86411c1e1672186fb199c7c341002;hp=199b5f9eb5e6e33454eb36490f7bb31c4abab1ad;hb=26a7fc2ac4f492a4ef0096550788c4b6293754a1;hpb=6460d3bc81440133c113d63ced2f0fb6e779358b" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/vf_waveform.c;h=26a7fc2ac4f492a4ef0096550788c4b6293754a1" title="history">H</a>] libavfilter/vf_waveform.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/vf_waveform: don&#39;t cast const away</title>
+<author>Andreas Rheinhardt &lt;andreas.rheinhardt@outlook.com&gt;</author>
+<pubDate>Mon, 22 Dec 2025 12:28:56 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=6460d3bc81440133c113d63ced2f0fb6e779358b</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=6460d3bc81440133c113d63ced2f0fb6e779358b</link>
+<description>avfilter/vf_waveform: don&#39;t cast const away</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/vf_waveform: don&#39;t cast const away
+
+Reviewed-by: Kacper Michajłow &lt;kasper93@gmail.com&gt;
+Signed-off-by: Andreas Rheinhardt &lt;andreas.rheinhardt@outlook.com&gt;
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/vf_waveform.c;fp=libavfilter/vf_waveform.c;h=199b5f9eb5e6e33454eb36490f7bb31c4abab1ad;hp=a8e4e71bf67497b3e4718f322ac8448d9a90bad2;hb=6460d3bc81440133c113d63ced2f0fb6e779358b;hpb=d41b8d95a7234cf0b34fcb84e307385fb3ef30a1" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/vf_waveform.c;h=6460d3bc81440133c113d63ced2f0fb6e779358b" title="history">H</a>] libavfilter/vf_waveform.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avcodec/avfilter_amf: correct handling of AMF errors</title>
+<author>Araz Iusubov &lt;Primeadvice@gmail.com&gt;</author>
+<pubDate>Wed, 10 Dec 2025 14:38:55 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=4479d28103acfc96266ec03b1061e2311edb541c</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=4479d28103acfc96266ec03b1061e2311edb541c</link>
+<description>avcodec/avfilter_amf: correct handling of AMF errors</description>
+<content:encoded><![CDATA[
+<pre>
+avcodec/avfilter_amf: correct handling of AMF errors
+
+Fix several AMF-related issues.
+
+Check the return value of amf_init_frames_context() correctly in amfdec,
+as it returns int rather than AMF_RESULT.
+
+Handle possible NULL surfaces returned from QueryInterface() in
+vf_amf_common to avoid passing invalid data to amf_amfsurface_to_avframe().
+
+Remove FILTER_SINGLE_PIXFMT from vf_sr_amf since it must not be used
+together with a query formats function.
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/vf_amf_common.c;fp=libavfilter/vf_amf_common.c;h=c8620bc513011924a25e7a25af639dc0592eaac1;hp=ae095c6a6c4ecb50ea12111e23b32f88ba063536;hb=4479d28103acfc96266ec03b1061e2311edb541c;hpb=b43645b2ef5da81968291a3f76fbf4ca62af656b" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/vf_amf_common.c;h=4479d28103acfc96266ec03b1061e2311edb541c" title="history">H</a>] libavfilter/vf_amf_common.c</li>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/vf_sr_amf.c;fp=libavfilter/vf_sr_amf.c;h=2179e81d2cd2e073e1b41858a4ccccce438352f8;hp=543d2cb979e90ebbd667b7445cf89c577cc26a3a;hb=4479d28103acfc96266ec03b1061e2311edb541c;hpb=b43645b2ef5da81968291a3f76fbf4ca62af656b" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/vf_sr_amf.c;h=4479d28103acfc96266ec03b1061e2311edb541c" title="history">H</a>] libavfilter/vf_sr_amf.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>lavfi/vf_blackdetect: R-V V count_pixels_16</title>
+<author>Rémi Denis-Courmont &lt;remi@remlab.net&gt;</author>
+<pubDate>Mon, 15 Dec 2025 18:40:24 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=7ee5c907e533d669dd4e39052a61b88232ca705b</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=7ee5c907e533d669dd4e39052a61b88232ca705b</link>
+<description>lavfi/vf_blackdetect: R-V V count_pixels_16</description>
+<content:encoded><![CDATA[
+<pre>
+lavfi/vf_blackdetect: R-V V count_pixels_16
+
+SpacemiT X60:
+blackdetect16_c:                                      7171.0 ( 1.00x)
+blackdetect16_rvv_i32:                                 383.6 (18.69x)
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/riscv/vf_blackdetect_init.c;fp=libavfilter/riscv/vf_blackdetect_init.c;h=fcf63501e59754868c60e9eaf3e1bc8125254c7a;hp=665603c114f040140a1ee31f8e90fbedd743d4dd;hb=7ee5c907e533d669dd4e39052a61b88232ca705b;hpb=570908af0963f03c8f7b629acde7edfa978c4a2e" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/riscv/vf_blackdetect_init.c;h=7ee5c907e533d669dd4e39052a61b88232ca705b" title="history">H</a>] libavfilter/riscv/vf_blackdetect_init.c</li>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/riscv/vf_blackdetect_rvv.S;fp=libavfilter/riscv/vf_blackdetect_rvv.S;h=89152e1a8d4c018487e2656ef5eee968a9c41055;hp=bd753effc0e9bea7cc3f4cd7616cf0d84a526ae6;hb=7ee5c907e533d669dd4e39052a61b88232ca705b;hpb=570908af0963f03c8f7b629acde7edfa978c4a2e" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/riscv/vf_blackdetect_rvv.S;h=7ee5c907e533d669dd4e39052a61b88232ca705b" title="history">H</a>] libavfilter/riscv/vf_blackdetect_rvv.S</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>lavfi/vf_blackdetect: R-V V count_pixels_8</title>
+<author>Rémi Denis-Courmont &lt;remi@remlab.net&gt;</author>
+<pubDate>Mon, 15 Dec 2025 18:37:54 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=570908af0963f03c8f7b629acde7edfa978c4a2e</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=570908af0963f03c8f7b629acde7edfa978c4a2e</link>
+<description>lavfi/vf_blackdetect: R-V V count_pixels_8</description>
+<content:encoded><![CDATA[
+<pre>
+lavfi/vf_blackdetect: R-V V count_pixels_8
+
+SpacemiT X60:
+blackdetect8_c:                                      14911.0 ( 1.00x)
+blackdetect8_rvv_i32:                                  369.5 (40.35x)
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/riscv/Makefile;fp=libavfilter/riscv/Makefile;h=32b07eec1ada09794acdabfbd0532980943177a7;hp=14a4470d966c0998e5a7b3240622b0e6517f8529;hb=570908af0963f03c8f7b629acde7edfa978c4a2e;hpb=1d662641c5b62559810b2ca1ee5ef0e5872f47fd" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/riscv/Makefile;h=570908af0963f03c8f7b629acde7edfa978c4a2e" title="history">H</a>] libavfilter/riscv/Makefile</li>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/riscv/vf_blackdetect_init.c;fp=libavfilter/riscv/vf_blackdetect_init.c;h=665603c114f040140a1ee31f8e90fbedd743d4dd;hp=0000000000000000000000000000000000000000;hb=570908af0963f03c8f7b629acde7edfa978c4a2e;hpb=1d662641c5b62559810b2ca1ee5ef0e5872f47fd" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/riscv/vf_blackdetect_init.c;h=570908af0963f03c8f7b629acde7edfa978c4a2e" title="history">H</a>] libavfilter/riscv/vf_blackdetect_init.c</li>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/riscv/vf_blackdetect_rvv.S;fp=libavfilter/riscv/vf_blackdetect_rvv.S;h=bd753effc0e9bea7cc3f4cd7616cf0d84a526ae6;hp=0000000000000000000000000000000000000000;hb=570908af0963f03c8f7b629acde7edfa978c4a2e;hpb=1d662641c5b62559810b2ca1ee5ef0e5872f47fd" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/riscv/vf_blackdetect_rvv.S;h=570908af0963f03c8f7b629acde7edfa978c4a2e" title="history">H</a>] libavfilter/riscv/vf_blackdetect_rvv.S</li>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/vf_blackdetect.h;fp=libavfilter/vf_blackdetect.h;h=e5b3aa8833ec4f1ba5857710e442b53104d56fce;hp=e51beda3a42499f1de2d286bea423daf1da2c3ba;hb=570908af0963f03c8f7b629acde7edfa978c4a2e;hpb=1d662641c5b62559810b2ca1ee5ef0e5872f47fd" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/vf_blackdetect.h;h=570908af0963f03c8f7b629acde7edfa978c4a2e" title="history">H</a>] libavfilter/vf_blackdetect.h</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/vf_libplacebo: rotate all input frames, not just reference</title>
+<author>Niklas Haas &lt;git@haasn.dev&gt;</author>
+<pubDate>Mon, 15 Dec 2025 10:29:58 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=4ac3b3a6da54ee165a9e6310f34dfb367712a20b</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=4ac3b3a6da54ee165a9e6310f34dfb367712a20b</link>
+<description>avfilter/vf_libplacebo: rotate all input frames, not just reference</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/vf_libplacebo: rotate all input frames, not just reference
+
+In commit 6e0034ab7e46429731fec6d2c390fa536a9157ad, the image crop adjustment
+was moved after the fitting logic. However, this moved the adjustment inside the
+`if (src == ref)` branch, thus missing applying the same un-rotation to input
+frames that are *not* the reference frame.
+
+Fix this by pulling the logic back out of the branch again. While we could just
+move it after the fitting logic, I think it&#39;s more clear to the intent of the
+code to just preserve the (rotated) crop rect as a separate variable
+`crop_orig`.
+
+Fixes: 6e0034ab7e46429731fec6d2c390fa536a9157ad
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/vf_libplacebo.c;fp=libavfilter/vf_libplacebo.c;h=c8015a964106db84928b28caa402760ff07b8c47;hp=b1788565bfc1e0b713fc6c5a1085c29790b8b41d;hb=4ac3b3a6da54ee165a9e6310f34dfb367712a20b;hpb=3332b2db841c04a8bb1bc21ee021749bc63efe26" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/vf_libplacebo.c;h=4ac3b3a6da54ee165a9e6310f34dfb367712a20b" title="history">H</a>] libavfilter/vf_libplacebo.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>lavfi/sidedata: fix typo</title>
+<author>Gyan Doshi &lt;ffmpeg@gyani.pro&gt;</author>
+<pubDate>Thu, 27 Nov 2025 06:32:40 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=b89f1581b007ec2ce3867e45be93caae55ca7864</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=b89f1581b007ec2ce3867e45be93caae55ca7864</link>
+<description>lavfi/sidedata: fix typo</description>
+<content:encoded><![CDATA[
+<pre>
+lavfi/sidedata: fix typo
+
+S12M_TIMECOD --&gt; S12M_TIMECODE
+
+Old version is marked deprecated.
+Should be removed at lavfi bump to 12.
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/f_sidedata.c;fp=libavfilter/f_sidedata.c;h=6c81c6b6a5e6dbf3aec8192b487662dcea350cf2;hp=161fd2b9a20d0176d94c4acf71f6de3ae3efeb39;hb=b89f1581b007ec2ce3867e45be93caae55ca7864;hpb=b8ee68cffe8cbc5b0de984046f4f1cdd86e38c54" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/f_sidedata.c;h=b89f1581b007ec2ce3867e45be93caae55ca7864" title="history">H</a>] libavfilter/f_sidedata.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/x86/vf_noise: Use unaligned access</title>
+<author>Ruikai Peng &lt;ruikai@pwno.io&gt;</author>
+<pubDate>Thu, 11 Dec 2025 01:53:02 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=cc4367026818bbfe19dabdbb535ce6bc4bdf7b79</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=cc4367026818bbfe19dabdbb535ce6bc4bdf7b79</link>
+<description>avfilter/x86/vf_noise: Use unaligned access</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/x86/vf_noise: Use unaligned access
+
+Regression since: 3ba570de8b666f5ae274b99d33cf4d4628cc385b (port from MMX to SSE2).
+
+The SSE2 inline asm in libavfilter/x86/vf_noise.c (line_noise_sse2 and
+line_noise_avg_sse2) uses aligned loads/stores (movdqa, movntdq) but never
+checks pointer alignment. When the filter reuses an input frame (common
+path when av_frame_is_writable() is true), it may receive misaligned data
+from upstream filters that adjust frame-&gt;data[i] in place, notably vf_crop:
+
+- vf_crop adjusts plane pointers by arbitrary byte offsets
+(frame-&gt;data[plane] += ...), so an x offset of 1 on 8-bit formats produces
+a 1‑byte misalignment.
+- The noise filter then calls the SSE2 path directly on those pointers
+without realigning or falling back.
+
+Repro on x86_64/SSE2 (current HEAD at that commit):
+
+./ffmpeg -v error -f lavfi -i testsrc=s=320x240:rate=1 \
+-vf &quot;format=yuv420p,crop=w=319:x=1:h=240:exact=1,noise=alls=50&quot; \
+-frames:v 1 -f null -
+
+This crashes with SIGSEGV at the aligned load in line_noise_sse2 (movdqa
+(%r9,%rax),%xmm0; effective address misaligned by 1 byte).
+
+Impact: denial of service via crafted filtergraphs (e.g., crop + noise).
+Applies to planar 8-bit formats where upstream filters can shift data
+pointers without reallocating.
+
+Found-by: Pwno OSS Team
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/x86/vf_noise.c;fp=libavfilter/x86/vf_noise.c;h=3edcbd64e5b7977e0fee10b53eb5664bf0929a95;hp=95f97b3b0674dcd73cb4af13418922ed6857f019;hb=cc4367026818bbfe19dabdbb535ce6bc4bdf7b79;hpb=9c14527f1a862c3f627cc999689ed84c3569f2a9" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/x86/vf_noise.c;h=cc4367026818bbfe19dabdbb535ce6bc4bdf7b79" title="history">H</a>] libavfilter/x86/vf_noise.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/avfiltergraph: add missing newlines to format printing</title>
+<author>Niklas Haas &lt;git@haasn.dev&gt;</author>
+<pubDate>Thu, 4 Dec 2025 12:10:47 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=440d58f5b12b035e67baa561cb2420362573cc94</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=440d58f5b12b035e67baa561cb2420362573cc94</link>
+<description>avfilter/avfiltergraph: add missing newlines to format printing</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/avfiltergraph: add missing newlines to format printing
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/avfiltergraph.c;fp=libavfilter/avfiltergraph.c;h=ad81d91bbcce21c1c1c515003a5f153060c09567;hp=c15d95b91eefd2d9b43eb407cd2e3fb4a7370d3d;hb=440d58f5b12b035e67baa561cb2420362573cc94;hpb=978a0821eeb909d7b2cb777bed03a8fc380e9503" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/avfiltergraph.c;h=440d58f5b12b035e67baa561cb2420362573cc94" title="history">H</a>] libavfilter/avfiltergraph.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/avfiltergraph: always retry format negotiation after auto-filters</title>
+<author>Niklas Haas &lt;git@haasn.dev&gt;</author>
+<pubDate>Thu, 4 Dec 2025 12:25:03 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=978a0821eeb909d7b2cb777bed03a8fc380e9503</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=978a0821eeb909d7b2cb777bed03a8fc380e9503</link>
+<description>avfilter/avfiltergraph: always retry format negotiation after auto-filters</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/avfiltergraph: always retry format negotiation after auto-filters
+
+There is an edge case not covered by the current logic: If there is only
+a single auto-filter inserted, but the auto-inserted filter is incompatible
+with a *different* format attribute (after settling the previous formats),
+we may need a second auto-filter (e.g. `scale`) to settle the newly introduced
+incompatibility.
+
+A regression test demonstrating the issue is added.
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/avfiltergraph.c;fp=libavfilter/avfiltergraph.c;h=c15d95b91eefd2d9b43eb407cd2e3fb4a7370d3d;hp=d5c2ef54e698ea64da4773e2651358f011334bb0;hb=978a0821eeb909d7b2cb777bed03a8fc380e9503;hpb=16050a1cef818d02542ea52a14ad96ca890ffb2d" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/avfiltergraph.c;h=978a0821eeb909d7b2cb777bed03a8fc380e9503" title="history">H</a>] libavfilter/avfiltergraph.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/vf_libopencv: make sure there is space for null-terminator in shape_str</title>
+<author>Kacper Michajłow &lt;kasper93@gmail.com&gt;</author>
+<pubDate>Mon, 8 Dec 2025 02:38:56 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=cca872b6fdee84e423404d79b9afee51e7cc2382</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=cca872b6fdee84e423404d79b9afee51e7cc2382</link>
+<description>avfilter/vf_libopencv: make sure there is space for null-terminator in shape_str</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/vf_libopencv: make sure there is space for null-terminator in shape_str
+
+Fixes: warning: &#39;sscanf&#39; may overflow; destination buffer in argument 7 has size 32, but the corresponding specifier may require size 33 [-Wfortify-source]
+Signed-off-by: Kacper Michajłow &lt;kasper93@gmail.com&gt;
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/vf_libopencv.c;fp=libavfilter/vf_libopencv.c;h=8a80a7fdab2cd109b1080a557b7ca0385954056f;hp=ae8dd49b2c4d24d6c30a14ea5ca72aa284fe3691;hb=cca872b6fdee84e423404d79b9afee51e7cc2382;hpb=1fa5e001bce15dd33c7296b4a38fd23ab81689f9" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/vf_libopencv.c;h=cca872b6fdee84e423404d79b9afee51e7cc2382" title="history">H</a>] libavfilter/vf_libopencv.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/vf_neighbor_opencl: add error condition when filter name doesn&#39;t match</title>
+<author>Kacper Michajłow &lt;kasper93@gmail.com&gt;</author>
+<pubDate>Mon, 8 Dec 2025 02:36:05 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=1fa5e001bce15dd33c7296b4a38fd23ab81689f9</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=1fa5e001bce15dd33c7296b4a38fd23ab81689f9</link>
+<description>avfilter/vf_neighbor_opencl: add error condition when filter name doesn&#39;t match</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/vf_neighbor_opencl: add error condition when filter name doesn&#39;t match
+
+This cannot really happen, but to suppress compiler warnings, we can
+just return AVERROR_BUG here.
+
+Fixes: warning: variable &#39;kernel_name&#39; is used uninitialized whenever &#39;if&#39; condition is false [-Wsometimes-uninitialized]
+Signed-off-by: Kacper Michajłow &lt;kasper93@gmail.com&gt;
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/vf_neighbor_opencl.c;fp=libavfilter/vf_neighbor_opencl.c;h=eb39a5ec596325dfa203752c5a929f6c8bfd0a49;hp=0b8d7fc9985730dd3d960bd4e77ce8ce41955ade;hb=1fa5e001bce15dd33c7296b4a38fd23ab81689f9;hpb=69b4474367bfe292cb5a51671fe6e792cf4bc4ac" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/vf_neighbor_opencl.c;h=1fa5e001bce15dd33c7296b4a38fd23ab81689f9" title="history">H</a>] libavfilter/vf_neighbor_opencl.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/vf_scale_d3d12: fix integer overflow in input framerate calculation</title>
+<author>Timo Rothenpieler &lt;timo@rothenpieler.org&gt;</author>
+<pubDate>Mon, 8 Dec 2025 13:18:36 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=338889c0d9794782ea1b247bce934df50e5ade8c</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=338889c0d9794782ea1b247bce934df50e5ade8c</link>
+<description>avfilter/vf_scale_d3d12: fix integer overflow in input framerate calculation</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/vf_scale_d3d12: fix integer overflow in input framerate calculation
+
+Also removes pointless intermediate variables that caused
+the overflow and truncation to happen in the first place.
+
+Fixes #YWH-PGM40646-1
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/vf_scale_d3d12.c;fp=libavfilter/vf_scale_d3d12.c;h=8066bd07257a95c9eed6dbdb3c93739da1c0117f;hp=6950feb32b1bebb3fc7ee31ee4a2365b32bbfc0a;hb=338889c0d9794782ea1b247bce934df50e5ade8c;hpb=c4d22f2d2c27ca6a078c126fbd371ded47b6ef7f" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/vf_scale_d3d12.c;h=338889c0d9794782ea1b247bce934df50e5ade8c" title="history">H</a>] libavfilter/vf_scale_d3d12.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter: D3D12 scale video filter support</title>
+<author>Araz Iusubov &lt;Primeadvice@gmail.com&gt;</author>
+<pubDate>Fri, 5 Dec 2025 15:27:41 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=c4d22f2d2c27ca6a078c126fbd371ded47b6ef7f</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=c4d22f2d2c27ca6a078c126fbd371ded47b6ef7f</link>
+<description>avfilter: D3D12 scale video filter support</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter: D3D12 scale video filter support
+
+This filter allows scaling of video frames using Direct3D 12 acceleration.
+
+Example:
+    ffmpeg -hwaccel d3d12va -hwaccel_output_format d3d12 \
+           -i input.mp4 -vf scale_d3d12=1920:1280 \
+           -c:v hevc_d3d12va -y output_1920x1280.mp4
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/Makefile;fp=libavfilter/Makefile;h=5f5a199a6330b0d8093b9e49bf28ddeb4fd3dade;hp=67814c0d770464a4b4213522ea362c8c559fa1c1;hb=c4d22f2d2c27ca6a078c126fbd371ded47b6ef7f;hpb=3ed8c1eb8a04193b44d32350aacd88a94a38b6a7" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/Makefile;h=c4d22f2d2c27ca6a078c126fbd371ded47b6ef7f" title="history">H</a>] libavfilter/Makefile</li>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/allfilters.c;fp=libavfilter/allfilters.c;h=9ea07a486da8a1e68e076c5f35fc41e962ab76ee;hp=0a3e782fe94f042fe3933443d94472ea43168167;hb=c4d22f2d2c27ca6a078c126fbd371ded47b6ef7f;hpb=3ed8c1eb8a04193b44d32350aacd88a94a38b6a7" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/allfilters.c;h=c4d22f2d2c27ca6a078c126fbd371ded47b6ef7f" title="history">H</a>] libavfilter/allfilters.c</li>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/vf_scale_d3d12.c;fp=libavfilter/vf_scale_d3d12.c;h=6950feb32b1bebb3fc7ee31ee4a2365b32bbfc0a;hp=0000000000000000000000000000000000000000;hb=c4d22f2d2c27ca6a078c126fbd371ded47b6ef7f;hpb=3ed8c1eb8a04193b44d32350aacd88a94a38b6a7" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/vf_scale_d3d12.c;h=c4d22f2d2c27ca6a078c126fbd371ded47b6ef7f" title="history">H</a>] libavfilter/vf_scale_d3d12.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/af_amerge: fix indentation</title>
+<author>Marton Balint &lt;cus@passwd.hu&gt;</author>
+<pubDate>Fri, 28 Nov 2025 23:10:50 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=315446da2f0e55bd0f6d49a58e8fe76cf8b72a5c</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=315446da2f0e55bd0f6d49a58e8fe76cf8b72a5c</link>
+<description>avfilter/af_amerge: fix indentation</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/af_amerge: fix indentation
+
+Signed-off-by: Marton Balint &lt;cus@passwd.hu&gt;
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/af_amerge.c;fp=libavfilter/af_amerge.c;h=13decdadc5d5204fec8fed4ef85916d956802e05;hp=e300cf9c7bad42887a6c56026f69f0117919b8f7;hb=315446da2f0e55bd0f6d49a58e8fe76cf8b72a5c;hpb=3d667b147aab3bd4b1264a48ac293d994fc10c7c" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/af_amerge.c;h=315446da2f0e55bd0f6d49a58e8fe76cf8b72a5c" title="history">H</a>] libavfilter/af_amerge.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/af_amerge: add layout_mode option to control output channel layout</title>
+<author>Marton Balint &lt;cus@passwd.hu&gt;</author>
+<pubDate>Fri, 28 Nov 2025 22:59:18 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=3d667b147aab3bd4b1264a48ac293d994fc10c7c</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=3d667b147aab3bd4b1264a48ac293d994fc10c7c</link>
+<description>avfilter/af_amerge: add layout_mode option to control output channel layout</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/af_amerge: add layout_mode option to control output channel layout
+
+Signed-off-by: Marton Balint &lt;cus@passwd.hu&gt;
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/af_amerge.c;fp=libavfilter/af_amerge.c;h=e300cf9c7bad42887a6c56026f69f0117919b8f7;hp=92afb4691f185abd42a8320cc271aedda111d19c;hb=3d667b147aab3bd4b1264a48ac293d994fc10c7c;hpb=4e0a8b745a4039942e9bd2bb28bc090bc1bc4af9" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/af_amerge.c;h=3d667b147aab3bd4b1264a48ac293d994fc10c7c" title="history">H</a>] libavfilter/af_amerge.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/af_amerge: rework routing calculation</title>
+<author>Marton Balint &lt;cus@passwd.hu&gt;</author>
+<pubDate>Fri, 28 Nov 2025 20:01:28 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=4e0a8b745a4039942e9bd2bb28bc090bc1bc4af9</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=4e0a8b745a4039942e9bd2bb28bc090bc1bc4af9</link>
+<description>avfilter/af_amerge: rework routing calculation</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/af_amerge: rework routing calculation
+
+No change in functionality.
+
+Signed-off-by: Marton Balint &lt;cus@passwd.hu&gt;
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/af_amerge.c;fp=libavfilter/af_amerge.c;h=92afb4691f185abd42a8320cc271aedda111d19c;hp=41137d4b8bf8c4fb562f2bd7d84d53f333d8c3c1;hb=4e0a8b745a4039942e9bd2bb28bc090bc1bc4af9;hpb=e8b10a9b09fff6fa09178634bededf14a6ea598c" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/af_amerge.c;h=4e0a8b745a4039942e9bd2bb28bc090bc1bc4af9" title="history">H</a>] libavfilter/af_amerge.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/af_amerge: fix possible crash with custom layouts</title>
+<author>Marton Balint &lt;cus@passwd.hu&gt;</author>
+<pubDate>Thu, 27 Nov 2025 22:57:20 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=e8b10a9b09fff6fa09178634bededf14a6ea598c</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=e8b10a9b09fff6fa09178634bededf14a6ea598c</link>
+<description>avfilter/af_amerge: fix possible crash with custom layouts</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/af_amerge: fix possible crash with custom layouts
+
+The check if a native layout can be created from the sources was incomplete and
+casued a crash with custom layouts if the layout contained a native channel
+multiple times, as in this example command line:
+
+ffmpeg -lavfi &quot;sine[a0];sine,pan=FL+FL[a1];[a0][a1]amerge[aout]&quot; -map &quot;[aout]&quot; -t 1 -f framecrc -
+
+Signed-off-by: Marton Balint &lt;cus@passwd.hu&gt;
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/af_amerge.c;fp=libavfilter/af_amerge.c;h=41137d4b8bf8c4fb562f2bd7d84d53f333d8c3c1;hp=bb82128a84699c2c942e1bdcafbeb5b8921e4c69;hb=e8b10a9b09fff6fa09178634bededf14a6ea598c;hpb=40d7f7774a788ed9615e1558c789c6d9a8d8cead" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/af_amerge.c;h=e8b10a9b09fff6fa09178634bededf14a6ea598c" title="history">H</a>] libavfilter/af_amerge.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/f_sidedata: also handle global side data in filter links</title>
+<author>James Almer &lt;jamrial@gmail.com&gt;</author>
+<pubDate>Mon, 1 Dec 2025 14:07:43 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=52c84b06d59d50de6844e75fa06ee50a23fb717a</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=52c84b06d59d50de6844e75fa06ee50a23fb717a</link>
+<description>avfilter/f_sidedata: also handle global side data in filter links</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/f_sidedata: also handle global side data in filter links
+
+Should fix issue #21071
+
+Signed-off-by: James Almer &lt;jamrial@gmail.com&gt;
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/f_sidedata.c;fp=libavfilter/f_sidedata.c;h=161fd2b9a20d0176d94c4acf71f6de3ae3efeb39;hp=b88a8cbd02ef7f39547978d2e3e83a3ecc1ab23e;hb=52c84b06d59d50de6844e75fa06ee50a23fb717a;hpb=e0845ec2cf255dd32effeee4bed9d1c48bb065e1" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/f_sidedata.c;h=52c84b06d59d50de6844e75fa06ee50a23fb717a" title="history">H</a>] libavfilter/f_sidedata.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+<item>
+<title>avfilter/vf_feedback: fix feedback block</title>
+<author>Jack Lau &lt;jacklau1222gm@gmail.com&gt;</author>
+<pubDate>Mon, 17 Nov 2025 22:45:06 +0000</pubDate>
+<guid isPermaLink="true">https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=3f0842294fbefcca32fdad6b644eae8c14f547e5</guid>
+<link>https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=3f0842294fbefcca32fdad6b644eae8c14f547e5</link>
+<description>avfilter/vf_feedback: fix feedback block</description>
+<content:encoded><![CDATA[
+<pre>
+avfilter/vf_feedback: fix feedback block
+
+Fix #20940
+
+The feedback and its sub-filter both request frame
+from each other, casuing block since 4440e499ba
+
+The feedback should only request inputs[1] once
+rather than continuously request frame cause blocking.
+
+This patch add check whether feedback already request
+inputs[1] via ff_outlink_frame_wanted(ctx-&gt;outputs[1]),
+if true, then exit and waiting inputs[0] because it means
+we need more frames input to proceed.
+
+Signed-off-by: Jack Lau &lt;jacklau1222gm@gmail.com&gt;
+</pre><ul>
+<li>[<a href="https://git.videolan.org/?p=ffmpeg.git;a=blobdiff;f=libavfilter/vf_feedback.c;fp=libavfilter/vf_feedback.c;h=e3633d7d374d8a2ca19064e6d95e0ab9707a7b7a;hp=6667ddfd161aeac7541acbaed44e6487605f76b5;hb=3f0842294fbefcca32fdad6b644eae8c14f547e5;hpb=bce14bb1603a8333d46e5ac9b36ca2caa189ee43" title="diff">D</a><a href="https://git.videolan.org/?p=ffmpeg.git;a=history;f=libavfilter/vf_feedback.c;h=3f0842294fbefcca32fdad6b644eae8c14f547e5" title="history">H</a>] libavfilter/vf_feedback.c</li>
+</ul>]]>
+</content:encoded>
+</item>
+</channel>
+</rss>

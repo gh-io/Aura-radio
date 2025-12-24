@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arix Signature | 3D Interactive Christmas</title>
+    <style>
+        body { margin: 0; overflow: hidden; background: #000; font-family: 'Segoe UI', Roboto, sans-serif; }
+        #loading {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #04100b; color: #d4af37; display: flex;
+            flex-direction: column; justify-content: center; align-items: center;
+            z-index: 1000; transition: opacity 1s ease;
+        }
+        .spinner { width: 40px; height: 40px; border: 2px solid #043927; border-top-color: #d4af37; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 20px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        #ui { position: absolute; top: 30px; width: 100%; text-align: center; color: #d4af37; pointer-events: none; z-index: 10; }
+        h1 { letter-spacing: 8px; font-weight: 300; text-transform: uppercase; margin: 0; text-shadow: 0 0 15px rgba(212,175,55,0.6); }
+        
+        /* 增强型音乐按钮 */
+        #music-btn {
+            position: absolute; top: 25px; left: 25px; padding: 12px 24px;
+            background: rgba(4, 57, 39, 0.8); border: 2px solid #d4af37;
+            color: #d4af37; border-radius: 30px; cursor: pointer;
+            font-size: 0.8rem; z-index: 2000; letter-spacing: 2px;
+            transition: all 0.3s ease; pointer-events: auto;
+            backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        #music-btn:hover { background: #d4af37; color: #043927; transform: translateY(-2px); }
+        #music-btn.playing { background: #d4af37; color: #043927; box-shadow: 0 0 20px #d4af37; }
+
+        #webcam-view {
+            position: absolute; bottom: 20px; right: 20px; width: 180px; height: 135px;
+            border: 1px solid rgba(212, 175, 55, 0.4); border-radius: 10px; overflow: hidden;
+            transform: scaleX(-1); background: #000;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loading">
+        <div class="spinner"></div>
+        <div style="letter-spacing: 5px;">ARIX SIGNATURE</div>
+        <div id="load-status" style="font-size: 0.7rem; margin-top: 10px; opacity: 0.6;">LOADING ASSETS...</div>
+    </div>
+
+    <button id="music-btn">🎵 ACTIVATE MUSIC</button>
+    
+    <audio id="bgm-audio" loop crossOrigin="anonymous">
+        <source src="https://upload.wikimedia.org/wikipedia/commons/d/d9/We_Wish_You_a_Merry_Christmas_Instrumental.ogg" type="audio/ogg">
+        <source src="https://www.chosic.com/wp-content/uploads/2021/11/We-Wish-You-A-Merry-Christmas.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="ui">
+        <h1>Arix Signature</h1>
+        <div class="hint" id="statusText" style="color: #d4af37; font-size: 0.7rem; letter-spacing: 2px; margin-top: 10px;">INITIALIZING...</div>
+    </div>
+
+    <video id="webcam-view" autoplay playsinline></video>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+            }
+        }
+    </script>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+        import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+        import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+        const CONFIG = {
+            PARTICLE_COUNT: 18000,
+            SNOW_COUNT: 2000,
+            EMERALD: 0x043927,
+            GOLD: 0xD4AF37,
+            BRIGHT_GOLD: 0xFFF7CC
+        };
+
+        let scene, camera, renderer, composer, particles, snowSystem, star;
+        let ornaments = [], currentState = 'TREE';
+        let posArray, treePos, scatterPos;
+        
+        const audio = document.getElementById('bgm-audio');
+        const btn = document.getElementById('music-btn');
+
+        async function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 10, 45);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ReinhardToneMapping;
+            document.body.appendChild(renderer.domElement);
+
+            const renderPass = new RenderPass(scene, camera);
+            const bloomPass = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+            bloomPass.threshold = 0.15; bloomPass.strength = 1.2; bloomPass.radius = 0.6;
+            composer = new EffectComposer(renderer);
+            composer.addPass(renderPass);
+            composer.addPass(bloomPass);
+
+            createTreeParticles();
+            createOrnaments();
+            createStar();
+            createSnow(); 
+            addLights();
+            initMediaPipe();
+
+            // 音乐点击逻辑
+            btn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play().then(() => {
+                        btn.innerText = "⏸ PAUSE MUSIC";
+                        btn.classList.add('playing');
+                    }).catch(err => {
+                        console.error("Playback failed:", err);
+                        btn.innerText = "❌ ERROR: RETRY";
+                    });
+                } else {
+                    audio.pause();
+                    btn.innerText = "🎵 PLAY MUSIC";
+                    btn.classList.remove('playing');
+                }
+            });
+
+            animate();
+            
+            setTimeout(() => {
+                document.getElementById('loading').style.opacity = '0';
+                setTimeout(() => document.getElementById('loading').remove(), 1000);
+            }, 1500);
+        }
+
+        // --- 核心物体创建 ---
+        function createSnow() {
+            const geo = new THREE.BufferGeometry();
+            const positions = new Float32Array(CONFIG.SNOW_COUNT * 3);
+            for (let i = 0; i < CONFIG.SNOW_COUNT * 3; i++) positions[i] = (Math.random() - 0.5) * 120;
+            geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            snowSystem = new THREE.Points(geo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true, opacity: 0.6 }));
+            scene.add(snowSystem);
+        }
+
+        function createTreeParticles() {
+            const geo = new THREE.BufferGeometry();
+            posArray = new Float32Array(CONFIG.PARTICLE_COUNT * 3);
+            treePos = new Float32Array(CONFIG.PARTICLE_COUNT * 3);
+            scatterPos = new Float32Array(CONFIG.PARTICLE_COUNT * 3);
+            const colors = new Float32Array(CONFIG.PARTICLE_COUNT * 3);
+
+            for (let i = 0; i < CONFIG.PARTICLE_COUNT; i++) {
+                const i3 = i * 3;
+                const h = Math.random() * 22;
+                const r = (22 - h) * 0.4 * Math.pow(Math.random(), 0.5);
+                const angle = Math.random() * Math.PI * 2;
+                treePos[i3] = Math.cos(angle) * r;
+                treePos[i3+1] = h - 10;
+                treePos[i3+2] = Math.sin(angle) * r;
+                scatterPos[i3] = (Math.random() - 0.5) * 100;
+                scatterPos[i3+1] = (Math.random() - 0.5) * 80;
+                scatterPos[i3+2] = (Math.random() - 0.5) * 100;
+                posArray[i3] = treePos[i3]; posArray[i3+1] = treePos[i3+1]; posArray[i3+2] = treePos[i3+2];
+                const col = new THREE.Color(Math.random() > 0.85 ? CONFIG.GOLD : CONFIG.EMERALD);
+                colors[i3] = col.r; colors[i3+1] = col.g; colors[i3+2] = col.b;
+            }
+            geo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+            particles = new THREE.Points(geo, new THREE.PointsMaterial({ size: 0.12, vertexColors: true, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false }));
+            scene.add(particles);
+        }
+
+        function createOrnaments() {
+            const goldMat = new THREE.MeshStandardMaterial({ color: CONFIG.GOLD, metalness: 1, roughness: 0.2 });
+            for (let i = 0; i < 40; i++) {
+                const ball = new THREE.Mesh(new THREE.SphereGeometry(0.35, 16, 16), goldMat);
+                const h = Math.random() * 18;
+                const r = (22 - h) * 0.42;
+                const angle = i * 0.9;
+                ball.userData.target = new THREE.Vector3(Math.cos(angle) * r, h - 10, Math.sin(angle) * r);
+                ball.userData.scatter = new THREE.Vector3((Math.random()-0.5)*80, (Math.random()-0.5)*70, (Math.random()-0.5)*80);
+                ornaments.push(ball); scene.add(ball);
+            }
+        }
+
+        function createStar() {
+            const shape = new THREE.Shape();
+            const spikes = 5;
+            for (let i = 0; i < spikes * 2; i++) {
+                const radius = i % 2 === 0 ? 1.8 : 0.7;
+                const angle = (Math.PI / spikes) * i;
+                const x = Math.cos(angle) * radius; const y = Math.sin(angle) * radius;
+                if (i === 0) shape.moveTo(x, y); else shape.lineTo(x, y);
+            }
+            shape.closePath();
+            star = new THREE.Mesh(new THREE.ExtrudeGeometry(shape, { depth: 0.4, bevelEnabled: true, bevelThickness: 0.1, bevelSize: 0.1 }), 
+                new THREE.MeshStandardMaterial({ color: CONFIG.BRIGHT_GOLD, emissive: CONFIG.GOLD, emissiveIntensity: 2.5 }));
+            star.position.set(0, 12, 0);
+            scene.add(star);
+        }
+
+        function addLights() {
+            const p1 = new THREE.PointLight(CONFIG.BRIGHT_GOLD, 150, 70);
+            p1.position.set(5, 5, 5); scene.add(p1);
+            scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+        }
+
+        function initMediaPipe() {
+            const video = document.getElementById('webcam-view');
+            const hands = new window.Hands({ locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}` });
+            hands.setOptions({ maxNumHands: 1, modelComplexity: 1, minDetectionConfidence: 0.75 });
+            hands.onResults(results => {
+                const status = document.getElementById('statusText');
+                if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                    const lm = results.multiHandLandmarks[0];
+                    const dist = Math.hypot(lm[8].x - lm[0].x, lm[8].y - lm[0].y);
+                    if (dist < 0.22) { currentState = 'SCATTER'; status.innerText = "SNOWSTORM MODE ❄️"; }
+                    else { currentState = 'TREE'; status.innerText = "ARIX SIGNATURE TREE 🎄"; }
+                    camera.position.x += ((lm[0].x - 0.5) * 45 - camera.position.x) * 0.05;
+                    camera.lookAt(0, 0, 0);
+                } else { status.innerText = "SHOW HAND TO INTERACT"; }
+            });
+            new window.Camera(video, { onFrame: async () => { await hands.send({ image: video }); }, width: 640, height: 480 }).start();
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const lerpSpeed = currentState === 'TREE' ? 0.08 : 0.04;
+            
+            // 粒子更新
+            const posAttr = particles.geometry.attributes.position.array;
+            for (let i = 0; i < CONFIG.PARTICLE_COUNT * 3; i++) {
+                const target = currentState === 'TREE' ? treePos[i] : scatterPos[i];
+                posAttr[i] += (target - posAttr[i]) * lerpSpeed;
+                if (currentState === 'SCATTER') posAttr[i] += Math.sin(Date.now() * 0.003 + i) * 0.03;
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+            particles.rotation.y += 0.002;
+
+            // 雪花
+            const snowPos = snowSystem.geometry.attributes.position.array;
+            for (let i = 1; i < snowPos.length; i += 3) {
+                snowPos[i] -= (currentState === 'SCATTER' ? 0.2 : 0.06); 
+                if (snowPos[i] < -40) snowPos[i] = 40; 
+            }
+            snowSystem.geometry.attributes.position.needsUpdate = true;
+
+            // 装饰物
+            ornaments.forEach(obj => {
+                obj.position.lerp(currentState === 'TREE' ? obj.userData.target : obj.userData.scatter, lerpSpeed);
+                obj.rotation.y += 0.015;
+            });
+
+            // 星星反馈
+            const isPlaying = !audio.paused;
+            const starPulse = isPlaying ? (1 + Math.sin(Date.now() * 0.006) * 0.15) : 1;
+            star.position.y += ((currentState === 'TREE' ? 12.5 : 40) - star.position.y) * lerpSpeed;
+            star.rotation.z += isPlaying ? 0.06 : 0.02;
+            star.scale.setScalar(starPulse * (1 + Math.sin(Date.now() * 0.004) * 0.05));
+
+            composer.render();
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        init();
+    </script>
+</body>
+</html>
