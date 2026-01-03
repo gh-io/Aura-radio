@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA Web Client</title>
+	<link rel="stylesheet" href="aura-web-client.css">
+</head>
+<body>
+<div id="container-grid">
+
+	<div id="player">
+		<audio controls autoplay id="player-audio" onended="playNext()"></audio>
+		<button onclick="playNext()">Next Track</button>
+	</div>
+
+	<div id="browser">
+		<div id="request-builder" class="panel">
+			<h2>Request Builder</h2>
+			<form id="request-builder-form">
+				<label for="server-url">Server URL (http://..../aura/)</label>
+				<br>
+				<input type="text" name="server-url" id="server-url" value="http://127.0.0.1:8337/aura/">
+				<br><br>
+				<input type="radio" name="collection" id="collection-tracks" value="tracks" checked>
+				<label for="collection-tracks">Tracks</label>
+				<br>
+				<input type="radio" name="collection" id="collection-albums" value="albums">
+				<label for="collection-tracks">Albums</label>
+				<br>
+				<input type="radio" name="collection" id="collection-artists" value="artists">
+				<label for="collection-tracks">Artists</label>
+				<br><br>
+
+				<label for="filters">Filters</label>
+				<br>
+				<textarea name="filters" id="filters"></textarea>
+				<br><br>
+
+				<label for="sort-string">Sort string</label>
+				<br>
+				<input type="text" name="sort-string" id="sort-string">
+				<br><br>
+
+				<button type="button" onclick="buildAndMakeRequest()">Make Request</button>
+			</form>
+		</div>
+
+		<div id="results" class="panel">
+			<h2>Results</h2>
+			<input type="checkbox" id="select-results-list" class="select-all" onchange="toggleListSelection('results-list')">
+			<label for="select-results-list">Select All</label>
+			<div id="results-list">
+			</div>
+		</div>
+
+		<div id="detail" class="panel">
+			<h2>Detail</h2>
+
+			<img id="item-image"></img>
+
+			<table id="item-attributes">
+			</table>
+
+			<h3>Related Artists</h3>
+			<input type="checkbox" id="select-related-artists" class="select-all" onchange="toggleListSelection('related-artists')">
+			<label for="select-related-artists">Select All</label>
+			<div id="related-artists">
+			</div>
+
+			<h3>Related Albums</h3>
+			<input type="checkbox" id="select-related-albums" class="select-all" onchange="toggleListSelection('related-albums')">
+			<label for="select-related-albums">Select All</label>
+			<div id="related-albums">
+			</div>
+
+			<h3>Related Tracks</h3>
+			<input type="checkbox" id="select-related-tracks" class="select-all" onchange="toggleListSelection('related-tracks')">
+			<label for="select-related-tracks">Select All</label>
+			<div id="related-tracks">
+			</div>
+		</div>
+
+		<div id="queue" class="panel">
+			<h2>Queue</h2>
+			<input type="checkbox" id="select-queue-list" class="select-all" onchange="toggleListSelection('queue-list')">
+			<label for="select-queue-list">Select All</label>
+			<div id="queue-list">
+			</div>
+		</div>
+	</div>
+
+	<div id="actions">
+		<button onclick="clearSelection()">Clear Selection</button>
+		<button onclick="prependToQueue()">Prepend to Queue</button>
+		<button onclick="appendToQueue()">Append to Queue</button>
+		<button onclick="removeFromQueue()">Remove from Queue</button>
+		<button onclick="playSelected()">Play</button>
+	</div>
+
+</div>
+
+<script src="aura-web-client.js"></script>
+</body>
+</html>
