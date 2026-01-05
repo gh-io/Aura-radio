@@ -1,0 +1,25 @@
+<icecast>
+  <limits>
+    <clients>100</clients>
+    <sources>2</sources>
+  </limits>
+
+  <authentication>
+    <source-password>livepassword</source-password>
+    <admin-user>admin</admin-user>
+    <admin-password>adminpassword</admin-password>
+  </authentication>
+
+  <hostname>0.0.0.0</hostname>
+
+  <mount>
+    <mount-name>/live.ogg</mount-name>
+    <username>source</username>
+    <password>livepassword</password>
+    <public>1</public>
+  </mount>
+
+  <listen-socket>
+    <port>9494</port>
+  </listen-socket>
+</icecast>
