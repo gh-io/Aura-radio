@@ -1,0 +1,816 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>AURA 0.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html#document-index" class="icon icon-home"> AURA
+          
+
+          
+          </a>
+
+          
+            
+            
+            
+              <div class="version">
+                latest
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html#document-api">Core API Specification</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="index.html#organization">Organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#server-information">Server Information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#resources-and-collections">Resources and Collections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#tracks">Tracks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#albums">Albums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#artists">Artists</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#images">Images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#audio">Audio</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html#document-index">AURA</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html#document-index">Docs</a> &raquo;</li>
+        
+      <li>AURA 0.2.0 documentation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/beetbox/aura/blob/master/docs/index.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="aura-universal-rest-api">
+<h1>AURA Universal REST API<a class="headerlink" href="#aura-universal-rest-api" title="Permalink to this headline">¶</a></h1>
+<p>AURA is an API specification for music libraries. Music players—from HTML5
+applications to mobile apps to embedded devices—use AURA to access servers
+that host catalogs of music. An AURA server can act as a personal alternative
+to centralized cloud services like Spotify or Rdio.</p>
+<p>The AURA protocol is a lightweight and open alternative to <a class="reference external" href="http://www.dlna.org">DLNA</a> or <a class="reference external" href="http://en.wikipedia.org/wiki/Digital_Audio_Access_Protocol">DAAP</a>.</p>
+<p>The API specification is organized as a <em>core API</em> that reflects the basic
+concepts and optional <em>extensions</em>. While not every sever will implement the
+same extensions, clients can assume that those that do will implement them in
+the same way.</p>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<span id="document-api"></span><div class="section" id="core-api-specification">
+<h2>Core API Specification<a class="headerlink" href="#core-api-specification" title="Permalink to this headline">¶</a></h2>
+<p>This document describes the core AURA protocol, which is a simple <a class="reference external" href="http://en.wikipedia.org/wiki/Representational_state_transfer">REST</a> API
+built on <a class="reference external" href="http://www.json.org">JSON</a> resources. The core protocol includes basic, read-only
+access to <em>tracks</em> and, optionally, organization into <em>albums</em> and <em>artists</em>.
+It exposes both metadata and audio.</p>
+<p>The API adheres to the <a class="reference external" href="http://jsonapi.org">JSON API</a> 1.0 specification.</p>
+<p>This description uses words like “SHOULD” and “MUST” in all caps to invoke
+their meaning according to <a class="reference external" href="http://tools.ietf.org/html/rfc2119">RFC 2119</a>.</p>
+<div class="section" id="organization">
+<h3>Organization<a class="headerlink" href="#organization" title="Permalink to this headline">¶</a></h3>
+<p>The API root <strong>SHOULD</strong> appear under a prefix named <code class="docutils literal notranslate"><span class="pre">/aura/</span></code>. This
+facilitates servers with multiple APIs, allows for human-readable content at
+the root on the same server, and provides for forward compatibility: future
+versions of this spec may recommend <code class="docutils literal notranslate"><span class="pre">/aura2/</span></code>, for example.</p>
+<div class="section" id="response-format-and-errors">
+<h4>Response Format and Errors<a class="headerlink" href="#response-format-and-errors" title="Permalink to this headline">¶</a></h4>
+<p>The MIME type for all responses <strong>MUST</strong> be <code class="docutils literal notranslate"><span class="pre">application/vnd.api+json</span></code>.
+Every response is a <a class="reference external" href="http://www.json.org">JSON</a> object.
+When a request is successful, the document has a top-level key <code class="docutils literal notranslate"><span class="pre">data</span></code>
+corresponding to the response’s “primary data.”
+When it fails, the document has an <code class="docutils literal notranslate"><span class="pre">errors</span></code> key, which maps to an array of
+JSON API <a class="reference external" href="http://jsonapi.org/format/#errors">error objects</a>.
+Other keys may also be present, as described below.</p>
+</div>
+</div>
+<div class="section" id="server-information">
+<span id="server-info"></span><h3>Server Information<a class="headerlink" href="#server-information" title="Permalink to this headline">¶</a></h3>
+<dl class="get">
+<dt id="get--aura-server">
+<code class="descname">GET </code><code class="descname">/aura/server</code><a class="headerlink" href="#get--aura-server" title="Permalink to this definition">¶</a></dt>
+<dd><p>The “root” endpoint exposes global information and status for the AURA
+server. The response’s <code class="docutils literal notranslate"><span class="pre">data</span></code> key maps to a <a class="reference external" href="http://jsonapi.org/format/#document-resource-objects">resource object</a>
+dictionary representing the server. The object’s <code class="docutils literal notranslate"><span class="pre">attributes</span></code> key
+<strong>MUST</strong> contain these keys:</p>
+<ul class="simple">
+<li><strong>aura-version</strong>, string: The version of the AURA spec implemented.</li>
+<li><strong>server</strong>, string: The name of the server software.</li>
+<li><strong>server-version</strong>, string: The version number of the server.</li>
+<li><strong>auth-required</strong>, bool: Whether the user has access to the server. For
+unsecured servers, this may be true even before authenticating.</li>
+</ul>
+<p>It <strong>MAY</strong> also contain these keys:</p>
+<ul class="simple">
+<li><strong>features</strong>, string array: A list of optional features the server
+supports.</li>
+</ul>
+</dd></dl>
+
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">GET</span> <span class="nn">/aura/server</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</pre></div>
+</div>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span> <span class="m">200</span> <span class="ne">OK</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/vnd.api+json</span>
+
+<span class="p">{</span>
+  <span class="nt">&quot;data&quot;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;server&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;attributes&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nt">&quot;aura-version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.2.0&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;server&quot;</span><span class="p">:</span> <span class="s2">&quot;aura-ref&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;server-version&quot;</span><span class="p">:</span> <span class="s2">&quot;0.2.1&quot;</span><span class="p">,</span>
+      <span class="nt">&quot;auth-required&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+      <span class="nt">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;albums&quot;</span><span class="p">]</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="resources-and-collections">
+<h3>Resources and Collections<a class="headerlink" href="#resources-and-collections" title="Permalink to this headline">¶</a></h3>
+<p>The core resource in AURA is the <em>track</em>, which represents a single audio
+file and its associated metadata.</p>
+<p>The server may also optionally group tracks into <em>albums</em> and <em>artists</em>. Since
+tracks represent the music itself, albums and artists are not
+required—clients <strong>SHOULD</strong> disable features that depend on browsing by
+album, for example, when the server only exposes individual tracks.
+Clients can still filter tracks by metadata that indicates the album or artist
+they belong to. AURA’s optional concepts of <em>albums</em> and <em>artists</em> are
+appropriate when the server supports metadata that is independent of the
+constituent tracks: cover art for albums, for example, or home towns for
+artists.</p>
+<p>Every resource is represented as a JSON object. Each resource type has a list
+of keys that are <em>required</em> on each object and a list of <em>optional</em> fields
+that the server may support. Servers may also provide other, non-standard
+fields not listed in this specification. The optional fields are included in
+an effort to standardize the name and format of common (albeit not universal)
+metadata.</p>
+<p>Names of attributes, including non-standard attributes, <strong>SHOULD</strong> only contain
+characters matched by the regular expression <code class="docutils literal notranslate"><span class="pre">[a-zA-Z0-9_-]</span></code>.</p>
+<div class="section" id="relationships">
+<span id="id1"></span><h4>Relationships<a class="headerlink" href="#relationships" title="Permalink to this headline">¶</a></h4>
+<p>In AURA, there are <a class="reference internal" href="#relationships">relationships</a> among resources. For example, a track can
+have a relationship to its containing album and, conversely, an album has
+relationships to its tracks.</p>
+<p><a class="reference external" href="http://jsonapi.org/format/#document-resource-object-relationships">JSON API relationships</a> appear under the <code class="docutils literal notranslate"><span class="pre">relationships</span></code> key within the resource
+object, which maps to an object.
+Values in that object are JSON API “relationship objects”: in AURA, these are
+wrappers for <a class="reference external" href="http://jsonapi.org/format/#document-resource-object-linkage">resource linkages</a>, which indicate the ID of another resource.
+For example, a track object links to its album like this:</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">GET</span> <span class="nn">/aura/tracks/42</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</pre></div>
+</div>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span>HTTP/1.1 200 OK
+Content-Type: application/vnd.api+json
+
+{
+  &quot;data&quot;: {
+    &quot;type&quot;: &quot;track&quot;,
+    &quot;id&quot;: &quot;42&quot;,
+    &quot;attributes&quot;: {
+       // ...
+    },
+    &quot;relationships&quot;: {
+      &quot;albums&quot;: {
+        &quot;data&quot;: [ { &quot;type&quot;: &quot;album&quot;, &quot;id&quot;: &quot;84&quot; } ]
+      }
+    }
+  }
+}
+</pre></div>
+</div>
+<p>This means that the client can get more information about the album at
+<code class="docutils literal notranslate"><span class="pre">/aura/albums/84</span></code>.</p>
+<p>The client can request <a class="reference external" href="http://jsonapi.org/format/#fetching-includes">inclusion</a> of related resources. The client provides an
+<code class="docutils literal notranslate"><span class="pre">include</span></code> request parameter containing a comma-separated list of resources.
+The response then <strong>MUST</strong> include any such objects referenced in
+<code class="docutils literal notranslate"><span class="pre">relationships</span></code> under an <code class="docutils literal notranslate"><span class="pre">included</span></code> key in the top-level response object.
+That <code class="docutils literal notranslate"><span class="pre">included</span></code> key maps to an array of resource objects.
+(This kind of response is called a <a class="reference external" href="http://jsonapi.org/format/#document-compound-documents">compound document</a> in JSON API.)
+For example:</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">GET</span> <span class="nn">/aura/tracks/42?include=album</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</pre></div>
+</div>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span>HTTP/1.1 200 OK
+Content-Type: application/vnd.api+json
+
+{
+  &quot;data&quot;: {
+    &quot;type&quot;: &quot;track&quot;,
+    &quot;id&quot;: &quot;42&quot;,
+    &quot;attributes&quot;: {
+       // ...
+    },
+    &quot;relationships&quot;: {
+      &quot;albums&quot;: {
+        &quot;data&quot;: [ { &quot;type&quot;: &quot;album&quot;, &quot;id&quot;: &quot;84&quot; } ]
+      }
+    }
+  },
+  &quot;included&quot;: [
+    {
+      &quot;type&quot;: &quot;album&quot;,
+      &quot;id&quot;: &quot;84&quot;,
+      // ...
+    }
+  ]
+}
+</pre></div>
+</div>
+</div>
+<div class="section" id="filtering">
+<h4>Filtering<a class="headerlink" href="#filtering" title="Permalink to this headline">¶</a></h4>
+<p>Servers provide filtered lists of resources according to metadata.
+To request a subset of a collection, the client uses request parameters
+specifying the fields or links to filter on.
+If the client sends a parameter <code class="docutils literal notranslate"><span class="pre">filter[key]=value</span></code>, the server <strong>MUST</strong>
+respond with only those resources whose <code class="docutils literal notranslate"><span class="pre">key</span></code> field exactly matches
+<code class="docutils literal notranslate"><span class="pre">value</span></code>.</p>
+<p>For example, the request <code class="docutils literal notranslate"><span class="pre">/aura/tracks?filter[title]=Blackbird</span></code> finds the
+track titled “Blackbird”.</p>
+<p>Filtering is by exact match only (i.e., no substring or case-insensitive
+matching is performed). More flexible queries may be eventually be specified
+in an AURA extension.</p>
+<p>If there are no exact matches, or if the server does not support filtering by
+the given key, then the <code class="docutils literal notranslate"><span class="pre">data</span></code> key of the response should be an empty array.</p>
+</div>
+<div class="section" id="sorting">
+<h4>Sorting<a class="headerlink" href="#sorting" title="Permalink to this headline">¶</a></h4>
+<p>Sorting of collections and subsets of collections follows the
+<a class="reference external" href="https://jsonapi.org/format/#fetching-sorting">JSON API sorting</a> specification. Sort fields correspond to keys in a
+resource’s <code class="docutils literal notranslate"><span class="pre">attributes</span></code> member.</p>
+<p>This example shows albums sorted by descending release date (newest first):</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span><span class="nf">GET</span> <span class="nn">/aura/albums?sort=-year,-month,-day</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+</pre></div>
+</div>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span>HTTP/1.1 200 OK
+Content-Type: application/vnd.api+json
+
+{
+  &quot;data&quot;: [
+    {
+      &quot;type&quot;: &quot;album&quot;,
+      &quot;id&quot;: &quot;42&quot;,
+      &quot;attributes&quot;: {
+        // ...
+        &quot;year&quot;: 2019,
+        &quot;month&quot;: 3,
+        &quot;day&quot;: 24,
+        // ...
+      }
+    },
+    {
+      &quot;type&quot;: &quot;album&quot;,
+      &quot;id&quot;: &quot;39&quot;,
+      &quot;attributes&quot;: {
+        // ...
+        &quot;year&quot;: 2018,
+        &quot;month&quot;: 12,
+        &quot;day&quot;: 6,
+        // ...
+      }
+    },
+    // ...
+  ]
+}
+</pre></div>
+</div>
+<p>If not all resources in the collection have the attribute specified by the sort
+parameter, then the server <strong>SHOULD</strong> return only those resources with the
+attribute. For example, the request <code class="docutils literal notranslate"><span class="pre">/aura/tracks?sort=composer</span></code> should
+return only those tracks with a <code class="docutils literal notranslate"><span class="pre">composer</span></code> attribute.</p>
+</div>
+<div class="section" id="pagination">
+<h4>Pagination<a class="headerlink" href="#pagination" title="Permalink to this headline">¶</a></h4>
+<p>Collection endpoints can return truncated results to avoid potential
+performance issues on both the client and the server. Pagination works using
+a <em>pagination token</em> that describes how to retrieve the next chunk
+of results. (In practice, the token could be the offset in the collection, the
+id of the next item to return, or a reference to a database cursor.)
+Truncation can be requested by the client or unilaterally imposed by the
+server.</p>
+<p><a class="reference external" href="http://jsonapi.org/format/#fetching-pagination">Pagination</a> applies to the three collection endpoints (<code class="docutils literal notranslate"><span class="pre">/aura/tracks</span></code>,
+<code class="docutils literal notranslate"><span class="pre">/aura/albums</span></code>, and <code class="docutils literal notranslate"><span class="pre">/aura/artists</span></code>).
+A server <strong>MAY</strong> truncate its responses. If it does so, it <strong>MUST</strong> provide
+pagination information in the <code class="docutils literal notranslate"><span class="pre">links</span></code> object of its response.
+That object <strong>MUST</strong> have a <code class="docutils literal notranslate"><span class="pre">next</span></code> member with a URL to the next page if one
+is available—otherwise, the <code class="docutils literal notranslate"><span class="pre">next</span></code> member may be null or missing
+altogether.
+The URL for the next page <strong>MUST</strong> be the same as the original, except that
+the <code class="docutils literal notranslate"><span class="pre">page</span></code> request holds a different value.</p>
+<p>A pagination token is not guaranteed to be useful indefinitely. If a token
+expires, the server <strong>MAY</strong> respond to subsequent requests
+with the same token with an HTTP 410 “Gone” error.
+(This is critical for servers that retain state for each in-progress
+pagination sequence.)</p>
+<p>The client <strong>MAY</strong> include a <code class="docutils literal notranslate"><span class="pre">limit</span></code> parameter (an integer) with a
+collection <code class="docutils literal notranslate"><span class="pre">GET</span></code> request. The server <strong>MUST</strong> respond with <em>at most</em> that
+number of resources, although it may return fewer. (A <code class="docutils literal notranslate"><span class="pre">next</span></code> link must
+be supplied if there are more results, as above.)</p>
+<p>For example, a client could request a “page” of results with a single result:</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span>GET /aura/tracks?limit=1
+</pre></div>
+</div>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span>HTTP/1.1 200 OK
+Content-Type: application/vnd.api+json
+
+{
+  &quot;data&quot;: [ ... ],
+  &quot;links&quot;: {
+    &quot;next&quot;: &quot;http://example.org/aura/tracks?limit=1&amp;page=sometoken&quot;
+  }
+}
+</pre></div>
+</div>
+<p>The client can then issue another request for the next chunk:</p>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span>GET /aura/tracks?limit=1&amp;page=sometoken
+</pre></div>
+</div>
+<div class="highlight-http notranslate"><div class="highlight"><pre><span></span>HTTP/1.1 200 OK
+Content-Type: application/vnd.api+json
+
+{
+  &quot;data&quot;: [ ... ]
+}
+</pre></div>
+</div>
+<p>The absence of a <code class="docutils literal notranslate"><span class="pre">links.next</span></code> URL indicates that the sequence is finished
+(there are only two tracks in the library).</p>
+</div>
+</div>
+<div class="section" id="tracks">
+<h3>Tracks<a class="headerlink" href="#tracks" title="Permalink to this headline">¶</a></h3>
+<p>An AURA server <strong>MUST</strong> expose a collection of tracks (i.e., individual songs).
+Information about a track is provided in a track resource object, which is
+in the form of a JSON API <a class="reference external" href="http://jsonapi.org/format/#document-resource-objects">resource object</a>. The top-level key <code class="docutils literal notranslate"><span class="pre">type</span></code> of all
+track resource objects <strong>MUST</strong> be the string <code class="docutils literal notranslate"><span class="pre">&quot;track&quot;</span></code>.</p>
+<dl class="get">
+<dt id="get--aura-tracks">
+<code class="descname">GET </code><code class="descname">/aura/tracks</code><a class="headerlink" href="#get--aura-tracks" title="Permalink to this definition">¶</a></dt>
+<dd><p>The collection of all tracks in the library. The reponse is a JSON object
+whose <code class="docutils literal notranslate"><span class="pre">data</span></code> key maps to an array of track resource objects.</p>
+</dd></dl>
+
+<dl class="get">
+<dt id="get--aura-tracks-(id)">
+<code class="descname">GET </code><code class="descname">/aura/tracks/</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#get--aura-tracks-(id)" title="Permalink to this definition">¶</a></dt>
+<dd><p>An individual track resource. The response is a JSON object whose <code class="docutils literal notranslate"><span class="pre">data</span></code>
+key maps to a single track resource object.</p>
+</dd></dl>
+
+<div class="section" id="required-attributes">
+<h4>Required Attributes<a class="headerlink" href="#required-attributes" title="Permalink to this headline">¶</a></h4>
+<p>Track resource objects <strong>MUST</strong> have these attributes:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">title</span></code>, string: The song’s name.</li>
+<li><code class="docutils literal notranslate"><span class="pre">artist</span></code>, string: The recording artist.</li>
+</ul>
+</div>
+<div class="section" id="optional-attributes">
+<h4>Optional Attributes<a class="headerlink" href="#optional-attributes" title="Permalink to this headline">¶</a></h4>
+<p>Tracks resource objects <strong>MAY</strong> have these attributes:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">album</span></code>, string: The name of the release the track appears on.</li>
+<li><code class="docutils literal notranslate"><span class="pre">track</span></code>, integer: The index of the track on its album.</li>
+<li><code class="docutils literal notranslate"><span class="pre">tracktotal</span></code>, integer: The number of tracks on the album.</li>
+<li><code class="docutils literal notranslate"><span class="pre">disc</span></code>, integer: The index of the medium in the album.</li>
+<li><code class="docutils literal notranslate"><span class="pre">disctotal</span></code>, integer: The number of media in the album.</li>
+<li><code class="docutils literal notranslate"><span class="pre">year</span></code>, integer: The year the track was released.</li>
+<li><code class="docutils literal notranslate"><span class="pre">month</span></code>, integer: The release date’s month.</li>
+<li><code class="docutils literal notranslate"><span class="pre">day</span></code>, integer: The release date’s day of the month.</li>
+<li><code class="docutils literal notranslate"><span class="pre">bpm</span></code>, integer: Tempo, in beats per minute.</li>
+<li><code class="docutils literal notranslate"><span class="pre">genre</span></code>, string: The track’s musical genre.</li>
+<li><code class="docutils literal notranslate"><span class="pre">recording-mbid</span></code>, string: A <a class="reference external" href="http://musicbrainz.org">MusicBrainz</a> recording id.</li>
+<li><code class="docutils literal notranslate"><span class="pre">track-mbid</span></code>, string: A MusicBrainz track id.</li>
+<li><code class="docutils literal notranslate"><span class="pre">composer</span></code>, string: The name of the music’s composer.</li>
+<li><code class="docutils literal notranslate"><span class="pre">albumartist</span></code>, string: The artist for the release the track appears
+on.</li>
+<li><code class="docutils literal notranslate"><span class="pre">comments</span></code>, string: Free-form, user-specified information.</li>
+</ul>
+<p>These optional attributes reflect audio metadata:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">mimetype</span></code>, string: The MIME type of the associated audio file.</li>
+<li><code class="docutils literal notranslate"><span class="pre">duration</span></code>, float: The (approximate) length of the audio in seconds.</li>
+<li><code class="docutils literal notranslate"><span class="pre">framerate</span></code>, integer: The number of frames per second in the audio.</li>
+<li><code class="docutils literal notranslate"><span class="pre">framecount</span></code>, integer: The total number of frames in the audio.
+(The exact length can be calculated as the product of the frame rate and
+frame count.)</li>
+<li><code class="docutils literal notranslate"><span class="pre">channels</span></code>, integer: The number of audio channels. (A frame consists of one
+sample per channel.)</li>
+<li><code class="docutils literal notranslate"><span class="pre">bitrate</span></code>, integer: The number of bits per second in the encoding.</li>
+<li><code class="docutils literal notranslate"><span class="pre">bitdepth</span></code>, integer: The number of bits per sample.</li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>, integer: The size of the audio file in bytes.</li>
+</ul>
+<p>Support for multi-valued attributes like <code class="docutils literal notranslate"><span class="pre">artists</span></code> and <code class="docutils literal notranslate"><span class="pre">genres</span></code> may be
+specified in a future AURA extension.</p>
+</div>
+<div class="section" id="id3">
+<h4>Relationships<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
+<p>Track resources <strong>MAY</strong> have relationships to albums they appear on, their
+recording artists and any associated images using the <code class="docutils literal notranslate"><span class="pre">albums</span></code>, <code class="docutils literal notranslate"><span class="pre">artists</span></code>
+and <code class="docutils literal notranslate"><span class="pre">images</span></code> fields respectively. These keys are also the valid values for
+the <code class="docutils literal notranslate"><span class="pre">include</span></code> parameter (see <a class="reference internal" href="#relationships"><span class="std std-ref">Relationships</span></a>).</p>
+</div>
+</div>
+<div class="section" id="albums">
+<h3>Albums<a class="headerlink" href="#albums" title="Permalink to this headline">¶</a></h3>
+<p>Album resources are optional. If a server supports artists, it <strong>MUST</strong>
+indicate the support by including the string <code class="docutils literal notranslate"><span class="pre">&quot;albums&quot;</span></code> in its <code class="docutils literal notranslate"><span class="pre">features</span></code>
+list (see <a class="reference internal" href="#server-info"><span class="std std-ref">Server Information</span></a>). If the server does not support albums, it
+<strong>MUST</strong> respond with an HTTP 404 error for all <code class="docutils literal notranslate"><span class="pre">/aura/albums</span></code> URLs.
+Information about an album is provided in an album resource object, which is
+in the form of a JSON API <a class="reference external" href="http://jsonapi.org/format/#document-resource-objects">resource object</a>. The top-level key <code class="docutils literal notranslate"><span class="pre">type</span></code> of all
+album resource objects <strong>MUST</strong> be the string <code class="docutils literal notranslate"><span class="pre">&quot;album&quot;</span></code>.</p>
+<dl class="get">
+<dt id="get--aura-albums">
+<code class="descname">GET </code><code class="descname">/aura/albums</code><a class="headerlink" href="#get--aura-albums" title="Permalink to this definition">¶</a></dt>
+<dd><p>The collection of all albums in the library. The response is a JSON
+object whose <code class="docutils literal notranslate"><span class="pre">data</span></code> key maps to an array of album resource objects.</p>
+</dd></dl>
+
+<dl class="get">
+<dt id="get--aura-albums-(id)">
+<code class="descname">GET </code><code class="descname">/aura/albums/</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#get--aura-albums-(id)" title="Permalink to this definition">¶</a></dt>
+<dd><p>An individual album resource. The response is a JSON object whose <code class="docutils literal notranslate"><span class="pre">data</span></code>
+key maps to a single album resource object.</p>
+</dd></dl>
+
+<div class="section" id="id4">
+<h4>Required Attributes<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h4>
+<p>Album resource objects <strong>MUST</strong> have these attributes:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">title</span></code>, string: The album’s name.</li>
+<li><code class="docutils literal notranslate"><span class="pre">artist</span></code>, string: The names of the artist responsible for the
+release (or another indicator such as “Various Artists” when no specific
+artist is relevant).</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h4>Optional Attributes<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h4>
+<p>Album resource objects <strong>MAY</strong> have these attributes:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">tracktotal</span></code>, integer: The number of tracks on the album.</li>
+<li><code class="docutils literal notranslate"><span class="pre">disctotal</span></code>, integer: The number of media in the album.</li>
+<li><code class="docutils literal notranslate"><span class="pre">year</span></code>, integer: The year the album was released.</li>
+<li><code class="docutils literal notranslate"><span class="pre">month</span></code>, integer: The release date’s month.</li>
+<li><code class="docutils literal notranslate"><span class="pre">day</span></code>, integer: The release date’s day of the month.</li>
+<li><code class="docutils literal notranslate"><span class="pre">genre</span></code>, string: The album’s musical genres.</li>
+<li><code class="docutils literal notranslate"><span class="pre">release-mbid</span></code>, string: A <a class="reference external" href="http://musicbrainz.org">MusicBrainz</a> release id.</li>
+<li><code class="docutils literal notranslate"><span class="pre">release-group-mbid</span></code>, string: A MusicBrainz release group id.</li>
+</ul>
+<p>Support for multi-valued attributes like <code class="docutils literal notranslate"><span class="pre">artists</span></code> and <code class="docutils literal notranslate"><span class="pre">genres</span></code> may be
+specified in a future AURA extension.</p>
+</div>
+<div class="section" id="id6">
+<h4>Relationships<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h4>
+<p>Album resources <strong>MUST</strong> link to their constituent tracks via the <code class="docutils literal notranslate"><span class="pre">tracks</span></code>
+field. They <strong>MAY</strong> also link their performing artists and associated images
+under the <code class="docutils literal notranslate"><span class="pre">artists</span></code> and <code class="docutils literal notranslate"><span class="pre">images</span></code> fields. These keys are also the valid
+values for the <code class="docutils literal notranslate"><span class="pre">include</span></code> parameter (see <a class="reference internal" href="#relationships"><span class="std std-ref">Relationships</span></a>).</p>
+</div>
+</div>
+<div class="section" id="artists">
+<h3>Artists<a class="headerlink" href="#artists" title="Permalink to this headline">¶</a></h3>
+<p>Artist resources are optional. If a server supports artists, it <strong>MUST</strong>
+indicate the support by including the string <code class="docutils literal notranslate"><span class="pre">&quot;artists&quot;</span></code> in its <code class="docutils literal notranslate"><span class="pre">features</span></code>
+list (see <a class="reference internal" href="#server-info"><span class="std std-ref">Server Information</span></a>). If the server does not support artists, it
+<strong>MUST</strong> respond with an HTTP 404 error for all <code class="docutils literal notranslate"><span class="pre">/aura/artists</span></code> URLs.
+Information about an artist is provided in an artist resource object, which
+is in the form of a JSON API <a class="reference external" href="http://jsonapi.org/format/#document-resource-objects">resource object</a>. The top-level key <code class="docutils literal notranslate"><span class="pre">type</span></code> of
+all artist resource objects <strong>MUST</strong> be the string <code class="docutils literal notranslate"><span class="pre">&quot;artist&quot;</span></code>.</p>
+<dl class="get">
+<dt id="get--aura-artists">
+<code class="descname">GET </code><code class="descname">/aura/artists</code><a class="headerlink" href="#get--aura-artists" title="Permalink to this definition">¶</a></dt>
+<dd><p>The collection of all artists in the library. The response is a JSON
+object whose <code class="docutils literal notranslate"><span class="pre">data</span></code> key maps to an array of artist resource objects.</p>
+</dd></dl>
+
+<dl class="get">
+<dt id="get--aura-artists-(id)">
+<code class="descname">GET </code><code class="descname">/aura/artists/</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#get--aura-artists-(id)" title="Permalink to this definition">¶</a></dt>
+<dd><p>An individual artist resource. The response is a JSON object whose <code class="docutils literal notranslate"><span class="pre">data</span></code>
+key maps to a single artist resource object.</p>
+</dd></dl>
+
+<div class="section" id="id7">
+<h4>Required Attributes<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>Artist resource objects <strong>MUST</strong> have these attributes:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">name</span></code>, string: The artist’s name.</li>
+</ul>
+</div>
+<div class="section" id="id8">
+<h4>Optional Attributes<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p>Artist resource objects <strong>MAY</strong> have these attributes:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">artist-mbid</span></code>, string: A <a class="reference external" href="http://musicbrainz.org">MusicBrainz</a> artist id.</li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h4>Relationships<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<p>Artist resources <strong>MUST</strong> have relationships to their associated tracks under
+the <code class="docutils literal notranslate"><span class="pre">tracks</span></code> field. They <strong>MAY</strong> also link to their albums and associated
+images under the <code class="docutils literal notranslate"><span class="pre">albums</span></code> and <code class="docutils literal notranslate"><span class="pre">images</span></code> fields. These keys are also the
+valid values for the <code class="docutils literal notranslate"><span class="pre">include</span></code> parameter (see <a class="reference internal" href="#relationships"><span class="std std-ref">Relationships</span></a>).</p>
+</div>
+</div>
+<div class="section" id="images">
+<h3>Images<a class="headerlink" href="#images" title="Permalink to this headline">¶</a></h3>
+<p>Image resources are optional. If a server supports images, it <strong>MUST</strong>
+indicate the support by including the string <code class="docutils literal notranslate"><span class="pre">&quot;images&quot;</span></code> in its <code class="docutils literal notranslate"><span class="pre">features</span></code>
+list (see <a class="reference internal" href="#server-info"><span class="std std-ref">Server Information</span></a>). If the server does not support images, it
+<strong>MUST</strong> respond with an HTTP 404 error for all <code class="docutils literal notranslate"><span class="pre">/aura/images</span></code> URLs.
+Information about an image is provided in an image resource object, which
+is in the form of a JSON API <a class="reference external" href="http://jsonapi.org/format/#document-resource-objects">resource object</a>. The top-level key <code class="docutils literal notranslate"><span class="pre">type</span></code> of
+all image resource objects <strong>MUST</strong> be the string <code class="docutils literal notranslate"><span class="pre">&quot;image&quot;</span></code>.</p>
+<p>Images can be associated with tracks, albums, and artists. Most pertinently,
+albums may have associated cover art.</p>
+<p>In contrast to the other resource types, servers <strong>SHOULD</strong> respond with an
+HTTP 404 error for the URL <code class="docutils literal notranslate"><span class="pre">/aura/images</span></code>. This is because enumerating all
+images may be difficult for the server, and a large collection of image
+metadata is not generally useful to music browsers and players.</p>
+<p>The flexible string nature of resources’ <code class="docutils literal notranslate"><span class="pre">id</span></code> field can be used to easily
+give images globally unique ids. For example, <code class="docutils literal notranslate"><span class="pre">&quot;album-3-cover.jpg&quot;</span></code> could be
+used to identify the cover image of the album with id <code class="docutils literal notranslate"><span class="pre">&quot;3&quot;</span></code>. This type of id
+may be useful if image information is not stored in a database.</p>
+<dl class="get">
+<dt id="get--aura-images-(id)">
+<code class="descname">GET </code><code class="descname">/aura/images/</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><a class="headerlink" href="#get--aura-images-(id)" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get metadata about a specific image. The response is a JSON object where
+the <code class="docutils literal notranslate"><span class="pre">data</span></code> key maps to a single image resource object.</p>
+</dd></dl>
+
+<dl class="get">
+<dt id="get--aura-images-(id)-file">
+<code class="descname">GET </code><code class="descname">/aura/images/</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><code class="descname">/file</code><a class="headerlink" href="#get--aura-images-(id)-file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download an image file. The response’s <code class="docutils literal notranslate"><span class="pre">Content-Type</span></code> header <strong>MUST</strong>
+indicate the mimetype of the image file returned.</p>
+</dd></dl>
+
+<div class="section" id="id10">
+<h4>Required Attributes<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<p>Image resource objects have no required attributes.</p>
+</div>
+<div class="section" id="id11">
+<h4>Optional Attributes<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<p>These fields on image resource objects are optional:</p>
+<ul class="simple">
+<li><code class="docutils literal notranslate"><span class="pre">role</span></code>, string: A description of the image’s purpose: “cover” for primary
+album art, etc.</li>
+<li><code class="docutils literal notranslate"><span class="pre">mimetype</span></code>, string: The MIME type of the image.</li>
+<li><code class="docutils literal notranslate"><span class="pre">width</span></code>, integer: The image’s width in pixels.</li>
+<li><code class="docutils literal notranslate"><span class="pre">height</span></code>, integer: The image’s height in pixels.</li>
+<li><code class="docutils literal notranslate"><span class="pre">size</span></code>, integer: The size of the image data in bytes.</li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h4>Relationships<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<p>Images <strong>MAY</strong> have relationships to any associated tracks, albums or artists
+using the <code class="docutils literal notranslate"><span class="pre">tracks</span></code>, <code class="docutils literal notranslate"><span class="pre">albums</span></code> and <code class="docutils literal notranslate"><span class="pre">artists</span></code> fields. These keys are also
+the valid values for the <code class="docutils literal notranslate"><span class="pre">include</span></code> parameter (see <a class="reference internal" href="#relationships"><span class="std std-ref">Relationships</span></a>).
+Each image resource <strong>MUST</strong> have at least one relationship.</p>
+</div>
+</div>
+<div class="section" id="audio">
+<h3>Audio<a class="headerlink" href="#audio" title="Permalink to this headline">¶</a></h3>
+<p>The server supplies audio files for each track.</p>
+<dl class="get">
+<dt id="get--aura-tracks-(id)-audio">
+<code class="descname">GET </code><code class="descname">/aura/tracks/</code><span class="sig-paren">(</span><em>id</em><span class="sig-paren">)</span><code class="descname">/audio</code><a class="headerlink" href="#get--aura-tracks-(id)-audio" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download the audio file for a track.</p>
+<p>The file is returned in an arbitrary audio file format. The server
+<strong>MUST</strong> set the <code class="docutils literal notranslate"><span class="pre">Content-Type</span></code> header to indicate the format.</p>
+<p>The server <strong>SHOULD</strong> use the HTTP <a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec19.html#sec19.5.1">Content-Disposition</a> header to supply
+a filename.</p>
+<p>The server <strong>SHOULD</strong> support HTTP <a class="reference external" href="https://tools.ietf.org/html/rfc7233">range requests</a> to facilitate seeking
+in the file.</p>
+</dd></dl>
+
+<div class="section" id="audio-formats-and-quality">
+<h4>Audio Formats and Quality<a class="headerlink" href="#audio-formats-and-quality" title="Permalink to this headline">¶</a></h4>
+<p>The server can provide multiple encodings of the same audio—i.e., by
+transcoding the file. This can help when the client supports a limited range
+of audio codecs (e.g., in browser environments) and when bandwidth is limited
+(e.g., to avoid streaming lossless audio over a mobile connection).</p>
+<p>The server decides which version of the file to send using <a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation#The_Accept.3a_header">HTTP content
+negotiation</a>. Specifically, the client <strong>MAY</strong> specify the kinds of content
+it requests in the HTTP <code class="docutils literal notranslate"><span class="pre">Accept</span></code> header. The header is a comma-separated
+list of types, which consist of a MIME type and (optionally) some parameters.
+To request audio under a maximum bitrate, the client uses a <code class="docutils literal notranslate"><span class="pre">bitrate</span></code>
+parameter to specify the maximum bits per second it is willing to accept.</p>
+<p>For example, the header <code class="docutils literal notranslate"><span class="pre">Accept:</span> <span class="pre">audio/ogg,</span> <span class="pre">audio/mpeg</span></code> requests audio in
+either MP3 or <a class="reference external" href="https://wiki.xiph.org/Ogg">Ogg</a> (Vorbis, Opus, etc.) format with no quality constraints.
+Similarly, <code class="docutils literal notranslate"><span class="pre">Accept:</span> <span class="pre">audio/ogg;bitrate=128000</span></code> requests Ogg audio at a bitrate
+of 128kbps or lower.</p>
+<p>The server <strong>SHOULD</strong> respond with one of the requested types or a 406 Not
+Acceptable status (i.e., if it does not support transcoding). An omitted
+<code class="docutils literal notranslate"><span class="pre">Accept</span></code> header is considered equivalent to <code class="docutils literal notranslate"><span class="pre">audio/*</span></code>.</p>
+</div>
+</div>
+</div>
+</div>
+<p>Also see the <a class="reference external" href="http-routingtable.html">complete list of endpoints</a>.</p>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014, Adrian Sampson
+      
+        <span class="commit">
+          Revision <code>9c94ac54</code>.
+        </span>
+      
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      <span class="fa fa-book"> Read the Docs</span>
+      v: latest
+      <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+      <dl>
+        <dt>Versions</dt>
+        
+          <dd><a href="/en/latest/">latest</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>Downloads</dt>
+        
+          <dd><a href="//auraspec.readthedocs.io/_/downloads/en/latest/pdf/">pdf</a></dd>
+        
+          <dd><a href="//auraspec.readthedocs.io/_/downloads/en/latest/htmlzip/">html</a></dd>
+        
+          <dd><a href="//auraspec.readthedocs.io/_/downloads/en/latest/epub/">epub</a></dd>
+        
+      </dl>
+      <dl>
+        <dt>On Read the Docs</dt>
+          <dd>
+            <a href="//readthedocs.org/projects/auraspec/?fromdocs=auraspec">Project Home</a>
+          </dd>
+          <dd>
+            <a href="//readthedocs.org/builds/auraspec/?fromdocs=auraspec">Builds</a>
+          </dd>
+      </dl>
+      <hr/>
+      Free document hosting provided by <a href="http://www.readthedocs.org">Read the Docs</a>.
+
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+   
+
+</body>
+</html>
