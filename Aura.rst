@@ -1,5 +1,6 @@
 Perfect. Let’s turn your notebook into a **modular, Aura-ready Python package** that’s plug-and-play for any dataset, keeping all your features—data fetching, aggregation, and plotting. Here’s a clean structure and starter code:
 
+
 ---
 
 ## **1. Project Structure**
